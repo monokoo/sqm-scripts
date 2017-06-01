@@ -29,6 +29,7 @@ m = Map("sqm", translate("Smart Queue Management"),
                   " and prioritisation on one " ..
                   "network interface."))
 
+m:section(SimpleSection).template="sqm"				  
 s = m:section(TypedSection, "queue", translate("Queues"))
 s:tab("tab_basic", translate("Basic Settings"))
 s:tab("tab_qdisc", translate("Queue Discipline"))

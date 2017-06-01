@@ -43,8 +43,9 @@ install-lib:
 
 .PHONY: install-luci
 install-luci:
-	install -m 0755 -d $(LUCI_DIR)/controller $(LUCI_DIR)/model/cbi
+	install -m 0755 -d $(LUCI_DIR)/controller $(LUCI_DIR)/model/cbi $(LUCI_DIR)/view
 	install -m 0644 luci/sqm-controller.lua $(LUCI_DIR)/controller/sqm.lua
 	install -m 0644 luci/sqm-cbi.lua $(LUCI_DIR)/model/cbi/sqm.lua
+	install -m 0644 luci/sqm-view.htm $(LUCI_DIR)/view/sqm.htm
 	install -m 0755 -d $(DESTDIR)/etc/uci-defaults
 	install -m 0755 luci/uci-defaults-sqm $(DESTDIR)/etc/uci-defaults/luci-sqm

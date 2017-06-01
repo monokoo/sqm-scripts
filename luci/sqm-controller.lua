@@ -23,4 +23,15 @@ function index()
 
 	page = entry({"admin", "qos", "sqm"}, cbi("sqm"), _("SQM QoS"))
 	page.dependent = true
+	entry({"admin", "qos", "sqm", "status"},call("status")).leaf=true
+end
+function status()
+local t=require"luci.sys"
+local e=require"luci.http"
+local a=require"luci.model.uci".cursor()
+local t={
+running=(t.call("ls /tmp/run/sqm/*.state >/dev/null")==0),
+}
+e.prepare_content("application/json")
+e.write_json(t)
 end
