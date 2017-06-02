@@ -78,15 +78,15 @@ end
 n.rmempty = false
 
 
-dl = s:taboption("tab_basic", Value, "download", translate("Download speed (kbit/s) (ingress) set to 0 to selectively disable ingress shaping:"))
+dl = s:taboption("tab_basic", Value, "download", translate("Download speed (kbit/s) (ingress)"), translate("set to 0 to selectively disable ingress shaping"))
 dl.datatype = "and(uinteger,min(0))"
 dl.rmempty = false
 
-ul = s:taboption("tab_basic", Value, "upload", translate("Upload speed (kbit/s) (egress) set to 0 to selectively disable egress shaping:"))
+ul = s:taboption("tab_basic", Value, "upload", translate("Upload speed (kbit/s) (egress)"), translate("set to 0 to selectively disable egress shaping"))
 ul.datatype = "and(uinteger,min(0))"
 ul.rmempty = false
 
-dbl = s:taboption("tab_basic", Flag, "debug_logging", translate("Create log file for this SQM instance under /var/run/sqm/${Inerface_name}.debug.log. Make sure to delete log files manually."))
+dbl = s:taboption("tab_basic", Flag, "debug_logging", translate("Create log file for this SQM instance"), translate("The log file is under /var/run/sqm/${Inerface_name}.debug.log. Make sure to delete log files manually."))
 dbl.rmempty = false
 
 
@@ -106,7 +106,7 @@ verb.rmempty = true
 -- QDISC
 
 local val_qdisc_name = ""
-c = s:taboption("tab_qdisc", ListValue, "qdisc", translate("Queuing disciplines useable on this system. After installing a new qdisc, you need to restart the router to see updates!"))
+c = s:taboption("tab_qdisc", ListValue, "qdisc", translate("Queuing disciplines useable on this system."), translate("After installing a new qdisc, you need to restart the router to see updates!"))
 c:value("fq_codel", "fq_codel ("..translate("default")..")")
 
 if fs.stat(run_path) then
@@ -137,7 +137,7 @@ sc.default = "simple.qos"
 sc.rmempty = false
 sc.description = qos_desc
 
-ad = s:taboption("tab_qdisc", Flag, "qdisc_advanced", translate("Show and Use Advanced Configuration. Advanced options will only be used as long as this box is checked."))
+ad = s:taboption("tab_qdisc", Flag, "qdisc_advanced", translate("Show and Use Advanced Configuration."))
 ad.default = false
 ad.rmempty = true
 
@@ -169,7 +169,7 @@ eecn.default = "NOECN"
 eecn.rmempty = true
 eecn:depends("qdisc_advanced", "1")
 
-ad2 = s:taboption("tab_qdisc", Flag, "qdisc_really_really_advanced", translate("Show and Use Dangerous Configuration. Dangerous options will only be used as long as this box is checked."))
+ad2 = s:taboption("tab_qdisc", Flag, "qdisc_really_really_advanced", translate("Show and Use Dangerous Configuration"))
 ad2.default = false
 ad2.rmempty = true
 ad2:depends("qdisc_advanced", "1")
@@ -188,34 +188,34 @@ elim.rmempty = true
 elim:depends("qdisc_really_really_advanced", "1")
 
 
-itarg = s:taboption("tab_qdisc", Value, "itarget", translate("Latency target for ingress, e.g 5ms [units: s, ms, or  us]; leave empty for automatic selection, put in the word default for the qdisc's default."))
+itarg = s:taboption("tab_qdisc", Value, "itarget", translate("Latency target for ingress"), translate("e.g 5ms [units: s, ms, or  us]; leave empty for automatic selection, put in the word default for the qdisc's default."))
 itarg.datatype = "string"
 itarg.rmempty = true
 itarg:depends("qdisc_really_really_advanced", "1")
 
-etarg = s:taboption("tab_qdisc", Value, "etarget", translate("Latency target for egress, e.g. 5ms [units: s, ms, or  us]; leave empty for automatic selection, put in the word default for the qdisc's default."))
+etarg = s:taboption("tab_qdisc", Value, "etarget", translate("Latency target for egress"), translate("e.g. 5ms [units: s, ms, or  us]; leave empty for automatic selection, put in the word default for the qdisc's default."))
 etarg.datatype = "string"
 etarg.rmempty = true
 etarg:depends("qdisc_really_really_advanced", "1")
 
 
 
-iqdisc_opts = s:taboption("tab_qdisc", Value, "iqdisc_opts", translate("Advanced option string to pass to the ingress queueing disciplines; no error checking, use very carefully."))
+iqdisc_opts = s:taboption("tab_qdisc", Value, "iqdisc_opts", translate("Advanced option string to pass to the ingress queueing disciplines"), translate("no error checking, use very carefully."))
 iqdisc_opts.rmempty = true
 iqdisc_opts:depends("qdisc_really_really_advanced", "1")
 
-eqdisc_opts = s:taboption("tab_qdisc", Value, "eqdisc_opts", translate("Advanced option string to pass to the egress queueing disciplines; no error checking, use very carefully."))
+eqdisc_opts = s:taboption("tab_qdisc", Value, "eqdisc_opts", translate("Advanced option string to pass to the egress queueing disciplines"), translate("no error checking, use very carefully."))
 eqdisc_opts.rmempty = true
 eqdisc_opts:depends("qdisc_really_really_advanced", "1")
 
 -- LINKLAYER
-ll = s:taboption("tab_linklayer", ListValue, "linklayer", translate("Which link layer to account for:"))
+ll = s:taboption("tab_linklayer", ListValue, "linklayer", translate("Which link layer to account for"))
 ll:value("none", "none ("..translate("default")..")")
 ll:value("ethernet", "Ethernet with overhead: select for e.g. VDSL2.")
 ll:value("atm", "ATM: select for e.g. ADSL1, ADSL2, ADSL2+.")
 ll.default = "none"
 
-po = s:taboption("tab_linklayer", Value, "overhead", translate("Per Packet Overhead (byte):"))
+po = s:taboption("tab_linklayer", Value, "overhead", translate("Per Packet Overhead (byte)"))
 po.datatype = "and(integer,min(-1500))"
 po.default = 0
 po.isnumber = true
@@ -224,26 +224,26 @@ po:depends("linklayer", "ethernet")
 po:depends("linklayer", "atm")
 
 
-adll = s:taboption("tab_linklayer", Flag, "linklayer_advanced", translate("Show Advanced Linklayer Options, (only needed if MTU > 1500). Advanced options will only be used as long as this box is checked."))
+adll = s:taboption("tab_linklayer", Flag, "linklayer_advanced", translate("Show Advanced Linklayer Options"), translate("only needed if MTU > 1500"))
 adll.rmempty = true
 adll:depends("linklayer", "ethernet")
 adll:depends("linklayer", "atm")
 
-smtu = s:taboption("tab_linklayer", Value, "tcMTU", translate("Maximal Size for size and rate calculations, tcMTU (byte); needs to be >= interface MTU + overhead:"))
+smtu = s:taboption("tab_linklayer", Value, "tcMTU", translate("Maximal Size for size and rate calculations"), translate("tcMTU(byte), needs to be >= interface MTU + overhead"))
 smtu.datatype = "and(uinteger,min(0))"
 smtu.default = 2047
 smtu.isnumber = true
 smtu.rmempty = true
 smtu:depends("linklayer_advanced", "1")
 
-stsize = s:taboption("tab_linklayer", Value, "tcTSIZE", translate("Number of entries in size/rate tables, TSIZE; for ATM choose TSIZE = (tcMTU + 1) / 16:"))
+stsize = s:taboption("tab_linklayer", Value, "tcTSIZE", translate("Number of entries in size/rate tables"), translate("TSIZE, for ATM choose TSIZE = (tcMTU + 1) / 16"))
 stsize.datatype = "and(uinteger,min(0))"
 stsize.default = 128
 stsize.isnumber = true
 stsize.rmempty = true
 stsize:depends("linklayer_advanced", "1")
 
-smpu = s:taboption("tab_linklayer", Value, "tcMPU", translate("Minimal packet size, MPU (byte); needs to be > 0 for ethernet size tables:"))
+smpu = s:taboption("tab_linklayer", Value, "tcMPU", translate("Minimal packet size"), translate("MPU(byte); needs to be > 0 for ethernet size tables"))
 smpu.datatype = "and(uinteger,min(0))"
 smpu.default = 0
 smpu.isnumber = true
