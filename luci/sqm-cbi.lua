@@ -137,32 +137,32 @@ sc.default = "simple.qos"
 sc.rmempty = false
 sc.description = qos_desc
 
-ad = s:taboption("tab_qdisc", Flag, "qdisc_advanced", translate("Show and Use Advanced Configuration."))
+ad = s:taboption("tab_qdisc", Flag, "qdisc_advanced", translate("Show and Use Advanced Configuration"))
 ad.default = false
 ad.rmempty = true
 
-squash_dscp  = s:taboption("tab_qdisc", ListValue, "squash_dscp", translate("Squash DSCP on inbound packets (ingress):"))
+squash_dscp  = s:taboption("tab_qdisc", ListValue, "squash_dscp", translate("Squash DSCP on inbound packets (ingress)"))
 squash_dscp:value("1", "SQUASH")
 squash_dscp:value("0", "DO NOT SQUASH")
 squash_dscp.default = "1"
 squash_dscp.rmempty = true
 squash_dscp:depends("qdisc_advanced", "1")
 
-squash_ingress = s:taboption("tab_qdisc", ListValue, "squash_ingress", translate("Ignore DSCP on ingress:"))
+squash_ingress = s:taboption("tab_qdisc", ListValue, "squash_ingress", translate("Ignore DSCP on ingress"))
 squash_ingress:value("1", "Ignore")
 squash_ingress:value("0", "Allow")
 squash_ingress.default = "1"
 squash_ingress.rmempty = true
 squash_ingress:depends("qdisc_advanced", "1")
 
-iecn = s:taboption("tab_qdisc", ListValue, "ingress_ecn", translate("Explicit congestion notification (ECN) status on inbound packets (ingress):"))
+iecn = s:taboption("tab_qdisc", ListValue, "ingress_ecn", translate("Explicit congestion notification (ECN) status on inbound packets (ingress)"))
 iecn:value("ECN", "ECN ("..translate("default")..")")
 iecn:value("NOECN")
 iecn.default = "ECN"
 iecn.rmempty = true
 iecn:depends("qdisc_advanced", "1")
 
-eecn = s:taboption("tab_qdisc", ListValue, "egress_ecn", translate("Explicit congestion notification (ECN) status on outbound packets (egress)."))
+eecn = s:taboption("tab_qdisc", ListValue, "egress_ecn", translate("Explicit congestion notification (ECN) status on outbound packets (egress)"))
 eecn:value("NOECN", "NOECN ("..translate("default")..")")
 eecn:value("ECN")
 eecn.default = "NOECN"
@@ -174,14 +174,14 @@ ad2.default = false
 ad2.rmempty = true
 ad2:depends("qdisc_advanced", "1")
 
-ilim = s:taboption("tab_qdisc", Value, "ilimit", translate("Hard limit on ingress queues; leave empty for default."))
+ilim = s:taboption("tab_qdisc", Value, "ilimit", translate("Hard limit on ingress queues"), translate("leave empty for default"))
 -- ilim.default = 1000
 ilim.isnumber = true
 ilim.datatype = "and(uinteger,min(0))"
 ilim.rmempty = true
 ilim:depends("qdisc_really_really_advanced", "1")
 
-elim = s:taboption("tab_qdisc", Value, "elimit", translate("Hard limit on egress queues; leave empty for default."))
+elim = s:taboption("tab_qdisc", Value, "elimit", translate("Hard limit on egress queues"), translate("leave empty for default"))
 -- elim.default = 1000
 elim.datatype = "and(uinteger,min(0))"
 elim.rmempty = true
@@ -250,7 +250,7 @@ smpu.isnumber = true
 smpu.rmempty = true
 smpu:depends("linklayer_advanced", "1")
 
-lla = s:taboption("tab_linklayer", ListValue, "linklayer_adaptation_mechanism", translate("Which linklayer adaptation mechanism to use; for testing only"))
+lla = s:taboption("tab_linklayer", ListValue, "linklayer_adaptation_mechanism", translate("Which linklayer adaptation mechanism to use"), translate("for testing only"))
 lla:value("default", "default ("..translate("default")..")")
 lla:value("cake")
 lla:value("htb_private")
