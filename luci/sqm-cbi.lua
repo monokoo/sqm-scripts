@@ -229,7 +229,7 @@ adll.rmempty = true
 adll:depends("linklayer", "ethernet")
 adll:depends("linklayer", "atm")
 
-smtu = s:taboption("tab_linklayer", Value, "tcMTU", translate("Maximal Size for size and rate calculations"), translate("tcMTU(byte), needs to be >= interface MTU + overhead"))
+smtu = s:taboption("tab_linklayer", Value, "tcMTU", translate("Maximal Size for size and rate calculations"), translate("tcMTU(byte),needs to be >= interface MTU + overhead"))
 smtu.datatype = "and(uinteger,min(0))"
 smtu.default = 2047
 smtu.isnumber = true
@@ -243,7 +243,7 @@ stsize.isnumber = true
 stsize.rmempty = true
 stsize:depends("linklayer_advanced", "1")
 
-smpu = s:taboption("tab_linklayer", Value, "tcMPU", translate("Minimal packet size"), translate("MPU(byte); needs to be > 0 for ethernet size tables"))
+smpu = s:taboption("tab_linklayer", Value, "tcMPU", translate("Minimal packet size"), translate("MPU(byte), needs to be > 0 for ethernet size tables"))
 smpu.datatype = "and(uinteger,min(0))"
 smpu.default = 0
 smpu.isnumber = true
