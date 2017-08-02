@@ -1,1 +1,1 @@
-BW-limited three-tier prioritisation scheme with your qdisc on each queue. (default)
+使用fq_codel列队规则在每个列队上进行三层优先级的带宽控制。（默认）

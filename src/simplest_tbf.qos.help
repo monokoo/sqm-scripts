@@ -1,2 +1,1 @@
-Simplest possible configuration (TBF): TBF rate limiter with your qdisc attached.
-TBF may give better performance than HTB on some architectures.
+最简单的配置（TBF）：使用带有TBF过滤器的列队规则来进行速率限制。在某些架构上，TBF可能会比HTB提供更好的性能。
