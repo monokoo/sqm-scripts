@@ -92,6 +92,23 @@ do_modules() {
     done
 }
 
+# Write a state file to the filename given as $1. This version will extract all
+# variable names defined in defaults.sh and since defaults.sh should contain all
+# used variables this should be the complete set.
+write_defaults_vars_to_state_file() {
+    local filename=$1
+    local defaultsFQN=$2
+    #shift
+    # this assumes that functions.sh lives in the same directory as defaults.sh
+    #local THIS_SCRIPT=$( readlink -f "$0" )
+    #local SQM_LIB_DIR=$( dirname "${THIS_SCRIPT}" )
+    # extract all variables from defaults.sh using the "${VARNAME}=" as matching pattern
+    #local ALL_SQM_DEFAULTS_VARS=$( grep -r -o -e "[[:alnum:][:punct:]]*=" ${SQM_LIB_DIR}/defaults.sh | sed 's/=//' )
+    local ALL_SQM_DEFAULTS_VARS=$( grep -r -o -e "[[:alnum:][:punct:]]*=" ${defaultsFQN} | sed 's/=//' )
+
+    write_state_file ${filename} ${ALL_SQM_DEFAULTS_VARS}
+}
+
 # Write a state file to the filename given as $1. The remaining arguments are
 # variable names that should be written to the state file.
 write_state_file() {
@@ -251,6 +268,7 @@ get_stab_string() {
 get_cake_lla_string() {
     STABSTRING=""
     local TMP_LLAM=${LLAM}
+    local CAKE_MPU_SUPPORTED=$( verify_qdisc_parameter_against_tc_help ${QDISC} mpu )
     if [ "${LLAM}" = "default" -a "$QDISC" = "cake" ]; then
 	sqm_debug "LLA: default link layer adjustment method for cake is cake"
 	TMP_LLAM="cake"
@@ -262,6 +280,11 @@ get_cake_lla_string() {
         fi
 
         STABSTRING="${STABSTRING} overhead ${OVERHEAD}"
+
+        if [ "${CAKE_MPU_SUPPORTED}" == "TRUE" ] ; then
+    	    STABSTRING="${STABSTRING} mpu ${STAB_MPU}"
+        fi
+
         sqm_debug "cake link layer adjustments: ${STABSTRING}"
     fi
     echo ${STABSTRING}
@@ -677,5 +700,24 @@ eth_setup() {
        do
           echo $(( 4 * $( get_mtu ${IFACE} ) )) > $i/limit_max
        done
+    fi
+}
+
+
+# try to check whether a given qdisc parameter is supported by the installed tc.
+verify_qdisc_parameter_against_tc_help() {
+    local qdisc_2_check=$1
+    local parameter_2_check=$2
+    local tmp_tc_parameter_found
+    tmp_tc_parameter_found=$( tc qdisc add root ${qdisc_2_check} help 2>&1 | grep -o -e "${parameter_2_check}" )
+    #echo $tmp_tc_parameter_found
+    if [ -z "${tmp_tc_parameter_found}" ]; then
+	#sqm_error "${qdisc_2_check}: parameter ${parameter_2_check} not supported by tc."
+	echo "FALSE"
+	return 1
+    else
+	#sqm_debug "${1} parameter ${2} supported by tc."
+	echo "TRUE"
+	return 0
     fi
 }
