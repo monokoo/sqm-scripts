@@ -23,6 +23,8 @@ stop_statefile() {
     [ -f "$f" ] && ( . "$f";
                      IFACE=$IFACE SCRIPT=$SCRIPT SQM_DEBUG=$SQM_DEBUG \
                           SQM_DEBUG_LOG=$SQM_DEBUG_LOG \
+                          SQM_VERBOSITY_MAX=$SQM_VERBOSITY_MAX \
+                          SQM_VERBOSITY_MIN=$SQM_VERBOSITY_MIN \
                           OUTPUT_TARGET=$OUTPUT_TARGET ${SQM_LIB_DIR}/stop-sqm )
 }
 
