@@ -82,11 +82,11 @@ end
 n.rmempty = false
 
 
-dl = s:taboption("tab_basic", Value, "download", translate("Upload speed (kbit/s) (egress)"), translate("set to 0 to selectively disable egress shaping"))
+dl = s:taboption("tab_basic", Value, "download", translate("Download speed (kbit/s) (ingress)"), translate("set to 0 to selectively disable ingress shaping"))
 dl.datatype = "and(uinteger,min(0))"
 dl.rmempty = false
 
-ul = s:taboption("tab_basic", Value, "upload", translate("Download speed (kbit/s) (ingress)"), translate("set to 0 to selectively disable ingress shaping"))
+ul = s:taboption("tab_basic", Value, "upload", translate("Upload speed (kbit/s) (egress)"), translate("set to 0 to selectively disable egress shaping"))
 ul.datatype = "and(uinteger,min(0))"
 ul.rmempty = false
 
