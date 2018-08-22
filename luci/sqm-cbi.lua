@@ -28,6 +28,10 @@ m = Map("sqm", translate("Smart Queue Management"),
                   " active queue length management (AQM) " ..
                   " and prioritisation on one " ..
                   "network interface."))
+m.apply_on_parse=true
+function m.on_apply(self)
+luci.sys.call("/etc/init.d/sqm restart> /dev/null 2>&1")
+end
 
 m:section(SimpleSection).template="sqm"				  
 s = m:section(TypedSection, "queue", translate("Queues"))
@@ -86,7 +90,7 @@ ul = s:taboption("tab_basic", Value, "upload", translate("Upload speed (kbit/s) 
 ul.datatype = "and(uinteger,min(0))"
 ul.rmempty = false
 
-dbl = s:taboption("tab_basic", Flag, "debug_logging", translate("Create log file for this SQM instance"), translate("The log file is under /var/run/sqm/${Inerface_name}.debug.log. Make sure to delete log files manually."))
+dbl = s:taboption("tab_basic", Flag, "debug_logging", translate("Create log file for this SQM instance"), translate("The log file is under /var/run/sqm/${Interface_name}.debug.log. Make sure to delete log files manually."))
 dbl.rmempty = false
 
 
