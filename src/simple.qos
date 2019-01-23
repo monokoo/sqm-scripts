@@ -105,10 +105,10 @@ egress() {
     BK_RATE=`expr $CEIL / 6`   # Min for background
     BE_CEIL=`expr $CEIL - 16`  # A little slop at the top
 
-    LQ="quantum `get_htb_quantum $IFACE $CEIL`"
-    BURST="`get_htb_burst $IFACE $CEIL`"
+    LQ="quantum `get_htb_quantum $IFACE $CEIL ${ESHAPER_QUANTUM_DUR_US}`"
+    BURST="`get_htb_burst $IFACE $CEIL ${ESHAPER_BURST_DUR_US}`"
 
-    $TC qdisc del dev $IFACE root 2> /dev/null
+    SILENT=1 $TC qdisc del dev $IFACE root
 
     case $QDISC in
         cake*) cake_egress; return;;
@@ -182,13 +182,13 @@ ingress() {
     BK_RATE=`expr $CEIL / 6`   # Min for background
     BE_CEIL=`expr $CEIL - 16`  # A little slop at the top
 
-    LQ="quantum `get_htb_quantum $IFACE $CEIL`"
-    BURST="`get_htb_burst $IFACE $CEIL`"
+    LQ="quantum `get_htb_quantum $IFACE $CEIL ${ISHAPER_QUANTUM_DUR_US}`"
+    BURST="`get_htb_burst $IFACE $CEIL ${ISHAPER_BURST_DUR_US}`"
 
-    $TC qdisc del dev $IFACE handle ffff: ingress 2> /dev/null
+    SILENT=1 $TC qdisc del dev $IFACE handle ffff: ingress
     $TC qdisc add dev $IFACE handle ffff: ingress
 
-    $TC qdisc del dev $DEV root  2> /dev/null
+    SILENT=1 $TC qdisc del dev $DEV root
 
     case $QDISC in
         cake*) cake_ingress; return ;;
@@ -244,7 +244,7 @@ sqm_start() {
         sqm_debug "egress shaping activated"
     else
         sqm_debug "egress shaping deactivated"
-        $TC qdisc del dev $IFACE root 2> /dev/null
+        SILENT=1 $TC qdisc del dev $IFACE root
     fi
 
     if [ "$DOWNLINK" -ne 0 ]; then
@@ -253,8 +253,8 @@ sqm_start() {
         sqm_debug "ingress shaping activated"
     else
         sqm_debug "ingress shaping deactivated"
-        $TC qdisc del dev $DEV root 2> /dev/null
-        $TC qdisc del dev $IFACE ingress 2> /dev/null
+        SILENT=1 $TC qdisc del dev $DEV root
+        SILENT=1 $TC qdisc del dev $IFACE ingress
     fi
 
 
